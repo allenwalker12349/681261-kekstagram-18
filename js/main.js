@@ -19,6 +19,19 @@ var getRandomNum = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+function createComments(maxNumOfComments) {
+  var commentsArr = [];
+  for (var i = 0; i <= getRandomNum(0, maxNumOfComments); i++) {
+    var currentComment = {
+      avatar: 'img/avatar-' + getRandomNum(MIN_NUM_OF_AVATAR, MAX_NUM_OF_AVATAR) + '.svg',
+      message: COMMENTS[getRandomNum(COMMENTS.length - COMMENTS.length, COMMENTS.length - 1)],
+      name: NAMES[getRandomNum(NAMES.length - NAMES.length, NAMES.length - 1)]
+    };
+    commentsArr.push(currentComment);
+  }
+  return commentsArr;
+}
+
 function createPhotoDescription(amoutOfPhotos) {
   var photoDescriptionArray = [];
 
@@ -27,28 +40,7 @@ function createPhotoDescription(amoutOfPhotos) {
       url: 'photos/' + [i] + '.jpg',
       description: 'Тут будет описание введеное пользователем',
       likes: getRandomNum(MIN_NUM_OF_LIKES, MAX_NUM_OF_LIKES),
-      comments: [
-        {
-          avatar: 'img/avatar-' + getRandomNum(MIN_NUM_OF_AVATAR, MAX_NUM_OF_AVATAR) + '.svg',
-          message: COMMENTS[getRandomNum(COMMENTS.length - COMMENTS.length, COMMENTS.length)],
-          name: NAMES[getRandomNum(NAMES.length - NAMES.length, NAMES.length)]
-        },
-        {
-          avatar: 'img/avatar-' + getRandomNum(MIN_NUM_OF_AVATAR, MAX_NUM_OF_AVATAR) + '.svg',
-          message: COMMENTS[getRandomNum(COMMENTS.length - COMMENTS.length, COMMENTS.length)],
-          name: NAMES[getRandomNum(NAMES.length - NAMES.length, NAMES.length)]
-        },
-        {
-          avatar: 'img/avatar-' + getRandomNum(MIN_NUM_OF_AVATAR, MAX_NUM_OF_AVATAR) + '.svg',
-          message: COMMENTS[getRandomNum(COMMENTS.length - COMMENTS.length, COMMENTS.length)],
-          name: NAMES[getRandomNum(NAMES.length - NAMES.length, NAMES.length)]
-        },
-        {
-          avatar: 'img/avatar-' + getRandomNum(MIN_NUM_OF_AVATAR, MAX_NUM_OF_AVATAR) + '.svg',
-          message: COMMENTS[getRandomNum(COMMENTS.length - COMMENTS.length, COMMENTS.length)],
-          name: NAMES[getRandomNum(NAMES.length - NAMES.length, NAMES.length)]
-        }
-      ]
+      comments: createComments(COMMENTS.length)
     };
     photoDescriptionArray.push(currentPhotoDescription);
   }
@@ -66,7 +58,7 @@ function addPhoto(photoArr) {
     var photoElement = pictureTemplate.cloneNode(true);
     photoElement.querySelector('.picture__img').src = photoArr[i].url;
     photoElement.querySelector('.picture__likes').textContent = photoArr[i].likes;
-    photoElement.querySelector('.picture__comments').textContent = getRandomNum(photoArr[i].comments.length - photoArr[i].comments.length, photoArr[i].comments.length);
+    photoElement.querySelector('.picture__comments').textContent = photoArr[i].comments.length;
     fragment.appendChild(photoElement);
   }
   picturersContainer.appendChild(fragment);
