@@ -19,9 +19,9 @@ var getRandomNum = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-function createComments(maxNumOfComments) {
+function createComments(numOfComments) {
   var commentsArr = [];
-  for (var i = 0; i <= getRandomNum(0, maxNumOfComments); i++) {
+  for (var i = 0; i <= numOfComments; i++) {
     var currentComment = {
       avatar: 'img/avatar-' + getRandomNum(MIN_NUM_OF_AVATAR, MAX_NUM_OF_AVATAR) + '.svg',
       message: COMMENTS[getRandomNum(COMMENTS.length - COMMENTS.length, COMMENTS.length - 1)],
@@ -40,7 +40,7 @@ function createPhotoDescription(amoutOfPhotos) {
       url: 'photos/' + [i] + '.jpg',
       description: 'Тут будет описание введеное пользователем',
       likes: getRandomNum(MIN_NUM_OF_LIKES, MAX_NUM_OF_LIKES),
-      comments: createComments(COMMENTS.length)
+      comments: createComments(getRandomNum(0, COMMENTS.length))
     };
     photoDescriptionArray.push(currentPhotoDescription);
   }
