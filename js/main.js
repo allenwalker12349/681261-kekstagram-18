@@ -65,3 +65,5 @@ function addPhoto(photoArr) {
 }
 
 addPhoto(photoDescriptions);
+
+//строка для пустого пул реквеста
