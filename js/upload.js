@@ -8,20 +8,13 @@ var hashTagInput = uploadForm.querySelector('.text__hashtags');
 
 uploadInput.addEventListener('change', function () {
   uploadPopup.classList.remove('hidden');
-  var isInputFocus = false;
-
-  hashTagInput.addEventListener('focus', function () {
-    isInputFocus = true;
-  });
-
-  hashTagInput.addEventListener('blur', function () {
-    isInputFocus = false;
-  });
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 27 && !isInputFocus) {
-      uploadPopup.classList.add('hidden');
-      uploadForm.reset();
+    if (document.activeElement !== hashTagInput) {
+      if (evt.keyCode === 27) {
+        uploadPopup.classList.add('hidden');
+        uploadForm.reset();
+      }
     }
   });
 });

@@ -8,32 +8,75 @@ var uploadBtn = uploadForm.querySelector('#upload-submit');
 var hashTagInput = uploadForm.querySelector('.text__hashtags');
 
 var isTagRepeat = function (arr) {
+  var flag;
   var n = arr.length;
   for (var i = 0; i < n - 1; i++) {
     for (var j = i + 1; j < n; j++) {
       if (arr[i] === arr[j]) {
-        return true;
+        flag = true;
+      } else {
+        flag = false;
       }
     }
   }
-  return false;
+  return flag;
+};
+
+var isBadFormat = function (arr) {
+  var flag;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i][0] !== '#' || arr[i].length === 1) {
+      flag = true;
+    }
+  }
+  return flag;
+};
+
+var isNoSpace = function (arr) {
+  var flag;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].indexOf('#', 1) !== -1) {
+      flag = true;
+    }
+  }
+  return flag;
+};
+
+var isBadLength = function (arr) {
+  var flag;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr.length > MAX_QUANTITY || arr[i].length > MAX_LENGTH) {
+      flag = true;
+    }
+  }
+  return flag;
 };
 
 uploadBtn.addEventListener('click', function () {
   var tags = hashTagInput.value.toLowerCase().split(' ');
-  for (var i = 0; i < tags.length; i++) {
-    if (tags[i][0] !== '#') {
-      hashTagInput.setCustomValidity('Хеш-Тег должен начинаться с символа #');
-    } else if (tags[i][0] === '#' && tags[i].length === 1) {
-      hashTagInput.setCustomValidity('Хеш-Тег не может состоять только из символа #');
-    } else if (tags[i].indexOf('#', 1) !== -1) {
-      hashTagInput.setCustomValidity('Хеш-Теги должны быть разделены пробелом');
-    } else if (isTagRepeat(tags)) {
-      hashTagInput.setCustomValidity('Хеш-Теги не могут повторяться');
-    } else if (tags.length > MAX_QUANTITY) {
-      hashTagInput.setCustomValidity('Нельзя указать больше ' + MAX_QUANTITY + ' хэш-тегов');
-    } else if (tags[i].length > MAX_LENGTH) {
-      hashTagInput.setCustomValidity('Хеш-тег не должен быть длинее ' + MAX_LENGTH + ' символов, включая #');
-    }
+  var erorrMessage = [];
+  var isCorrect = true;
+  if (isBadFormat(tags)) {
+    erorrMessage.push(' Хеш-тег должен начинаться со знака # и не может состоять только из него');
+    isCorrect = false;
+  }
+
+  if (isNoSpace(tags)) {
+    erorrMessage.push(' Хеш-Теги должны быть разделены пробелом');
+    isCorrect = false;
+  }
+
+  if (isTagRepeat(tags)) {
+    erorrMessage.push(' Хеш-Теги не могут повторяться');
+    isCorrect = false;
+  }
+
+  if (isBadLength(tags)) {
+    erorrMessage.push(' Максимум ' + MAX_QUANTITY + ' хеш-тегов, каждый не длине ' + MAX_LENGTH + ' символов');
+    isCorrect = false;
+  }
+
+  if (!isCorrect) {
+    hashTagInput.setCustomValidity(erorrMessage);
   }
 });
