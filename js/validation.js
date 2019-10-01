@@ -4,7 +4,6 @@ var MAX_QUANTITY = 5;
 var MAX_LENGTH = 20;
 
 var uploadForm = document.querySelector('#upload-select-image');
-var uploadBtn = uploadForm.querySelector('#upload-submit');
 var hashTagInput = uploadForm.querySelector('.text__hashtags');
 
 var isTagRepeat = function (arr) {
@@ -52,10 +51,11 @@ var isBadLength = function (arr) {
   return flag;
 };
 
-uploadBtn.addEventListener('click', function () {
+hashTagInput.addEventListener('input', function () {
   var tags = hashTagInput.value.toLowerCase().split(' ');
   var erorrMessage = [];
   var isCorrect = true;
+
   if (isBadFormat(tags)) {
     erorrMessage.push(' Хеш-тег должен начинаться со знака # и не может состоять только из него');
     isCorrect = false;
@@ -78,5 +78,9 @@ uploadBtn.addEventListener('click', function () {
 
   if (!isCorrect) {
     hashTagInput.setCustomValidity(erorrMessage);
+  } else {
+    hashTagInput.setCustomValidity('');
   }
+
+  hashTagInput.checkValidity();
 });
