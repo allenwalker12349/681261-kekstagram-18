@@ -6,6 +6,13 @@ var uploadCancelBtn = uploadPopup.querySelector('#upload-cancel');
 var uploadForm = document.querySelector('.img-upload__form');
 var hashTagInput = uploadForm.querySelector('.text__hashtags');
 
+var pinData = {
+  currentRadioBtnValue: '',
+  apllyCurrentFilterValue: function (filter, value) {
+    previewImg.style.filter = effects[filter]();
+  }
+};
+
 uploadInput.addEventListener('change', function () {
   uploadPopup.classList.remove('hidden');
 
@@ -41,4 +48,5 @@ effectLine.addEventListener('mouseup', function (evt) {
   effectPin.style.left = pinPosition + '%';
   effectDepth.style.width = pinPosition + '%';
   effectValue.value = pinPosition;
+  pinData.apllyCurrentFilterValue(pinData.currentRadioBtnValue, pinData.currentRadioBtnValue);
 });

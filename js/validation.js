@@ -21,32 +21,34 @@ var isTagRepeat = function (arr) {
   return flag;
 };
 
-var isBadFormat = function (arr) {
+var isBadFormat = function (tag) {
   var flag;
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i][0] !== '#' || arr[i].length === 1) {
-      flag = true;
-    }
+  if (tag[0] !== '#' || tag.length === 1) {
+    flag = true;
   }
   return flag;
 };
 
-var isNoSpace = function (arr) {
+var isNoSpace = function (tag) {
   var flag;
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i].indexOf('#', 1) !== -1) {
-      flag = true;
-    }
+  if (tag.indexOf('#', 1) !== -1) {
+    flag = true;
   }
   return flag;
 };
 
-var isBadLength = function (arr) {
+var isBadLength = function (tag) {
   var flag;
-  for (var i = 0; i < arr.length; i++) {
-    if (arr.length > MAX_QUANTITY || arr[i].length > MAX_LENGTH) {
-      flag = true;
-    }
+  if (tag.length > MAX_LENGTH) {
+    flag = true;
+  }
+  return flag;
+};
+
+var isBadQuantity = function (arr) {
+  var flag;
+  if (arr.length > MAX_QUANTITY) {
+    flag = true;
   }
   return flag;
 };
@@ -56,14 +58,22 @@ hashTagInput.addEventListener('input', function () {
   var erorrMessage = [];
   var isCorrect = true;
 
-  if (isBadFormat(tags)) {
-    erorrMessage.push(' Хеш-тег должен начинаться со знака # и не может состоять только из него');
-    isCorrect = false;
-  }
+  for (var i = 0; i < tags.length; i++) {
 
-  if (isNoSpace(tags)) {
-    erorrMessage.push(' Хеш-Теги должны быть разделены пробелом');
-    isCorrect = false;
+    if (isBadFormat(tags[i])) {
+      erorrMessage.push(' Хеш-тег должен начинаться со знака # и не может состоять только из него');
+      isCorrect = false;
+    }
+  
+    if (isNoSpace(tags[i])) {
+      erorrMessage.push(' Хеш-Теги должны быть разделены пробелом');
+      isCorrect = false;
+    }
+  
+    if (isBadLength(tags[i])) {
+      erorrMessage.push(' Максимум ' + MAX_LENGTH + ' символов включая #');
+      isCorrect = false;
+    }
   }
 
   if (isTagRepeat(tags)) {
@@ -71,10 +81,11 @@ hashTagInput.addEventListener('input', function () {
     isCorrect = false;
   }
 
-  if (isBadLength(tags)) {
-    erorrMessage.push(' Максимум ' + MAX_QUANTITY + ' хеш-тегов, каждый не длине ' + MAX_LENGTH + ' символов');
+  if (isBadQuantity(tags)) {  
+    erorrMessage.push(' Максимум 5 хеш-тегов');
     isCorrect = false;
   }
+
 
   if (!isCorrect) {
     hashTagInput.setCustomValidity(erorrMessage);
