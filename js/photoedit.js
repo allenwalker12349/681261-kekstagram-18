@@ -75,10 +75,7 @@
   effectPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
+    var startCoords = evt.clientX;
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
@@ -100,14 +97,11 @@
         pinPosition = Math.round((cursorPosition - scaleCoords.left) / effectLine.offsetWidth * 100);
       }
       changePinPosition(pinPosition);
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
-      };
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
+
+      var shift = startCoords - moveEvt.clientX;
+
+      startCoords = moveEvt.clientX;
+
       effectPin.style.left = (effectPin.offsetLeft - shift.x) + 'px';
     };
 
