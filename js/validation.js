@@ -54,6 +54,14 @@
     return flag;
   };
 
+  var addRedBorder = function (element) {
+    element.classList.add('red-error-border');
+  };
+
+  var deleteRedBorder = function (element) {
+    element.classList.remove('red-error-border');
+  };
+
   hashTagInput.addEventListener('input', function () {
     var tags = hashTagInput.value.toLowerCase().split(' ');
     var erorrMessage = [];
@@ -89,8 +97,10 @@
 
 
     if (!isCorrect) {
+      addRedBorder(document.activeElement);
       hashTagInput.setCustomValidity(erorrMessage);
     } else {
+      deleteRedBorder(document.activeElement);
       hashTagInput.setCustomValidity('');
     }
 
