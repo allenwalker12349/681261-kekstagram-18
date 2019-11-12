@@ -54,8 +54,16 @@
     return flag;
   };
 
-  hashTagInput.addEventListener('input', function () {
-    var tags = hashTagInput.value.toLowerCase().split(' ');
+  var addRedBorder = function (element) {
+    element.classList.add('red-error-border');
+  };
+
+  var deleteRedBorder = function (element) {
+    element.classList.remove('red-error-border');
+  };
+
+  window.formValidation = function () {
+    var tags = hashTagInput.value.toLowerCase().trim().split(' ');
     var erorrMessage = [];
     var isCorrect = true;
 
@@ -89,11 +97,15 @@
 
 
     if (!isCorrect) {
+      addRedBorder(document.activeElement);
       hashTagInput.setCustomValidity(erorrMessage);
     } else {
+      deleteRedBorder(document.activeElement);
       hashTagInput.setCustomValidity('');
     }
 
     hashTagInput.checkValidity();
-  });
+  };
+
+  hashTagInput.addEventListener('input', window.formValidation);
 })();

@@ -1261,6 +1261,10 @@ main {
  * Экраны ошибки и успеха загрузки изображения
  */
 
+ .red-error-border {
+   outline: 2px solid red;
+ }
+
 .error,
 .success {
   position: fixed;

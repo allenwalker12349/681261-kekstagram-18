@@ -12,6 +12,7 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS_STATUS) {
         onSuccess(xhr.response);
+        window.savedPhotoArr = xhr.response;
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
