@@ -22,7 +22,6 @@
   });
 
   uploadCancelBtn.addEventListener('click', function () {
-    uploadPopup.classList.add('hidden');
-    uploadForm.reset();
+    window.closePopup();
   });
 })();

@@ -62,8 +62,8 @@
     element.classList.remove('red-error-border');
   };
 
-  hashTagInput.addEventListener('input', function () {
-    var tags = hashTagInput.value.toLowerCase().split(' ');
+  window.formValidation = function () {
+    var tags = hashTagInput.value.toLowerCase().trim().split(' ');
     var erorrMessage = [];
     var isCorrect = true;
 
@@ -105,5 +105,7 @@
     }
 
     hashTagInput.checkValidity();
-  });
+  };
+
+  hashTagInput.addEventListener('input', window.formValidation);
 })();

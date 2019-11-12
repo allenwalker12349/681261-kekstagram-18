@@ -54,13 +54,13 @@
         effectPin.style.left = 100 + '%';
         effectDepth.style.width = 100 + '%';
         previewImg.classList.add('effects__preview--' + window.currentRadioValue);
-        applyFilter(scale.MAX);
+        window.applyFilter(scale.MAX);
       }
     });
   }
 
   // изменение глубины эффект
-  var applyFilter = function (value) {
+  window.window.applyFilter = function (value) {
     previewImg.style.filter = effects[window.currentRadioValue](value);
   };
 
@@ -69,7 +69,7 @@
     effectDepth.style.width = value + '%';
     effectValue.value = value;
 
-    applyFilter(value);
+    window.applyFilter(value);
   };
 
   effectPin.addEventListener('mousedown', function (evt) {
