@@ -4,16 +4,16 @@
   var AMOUNT_RANDOM_PICS = 10;
   var filters = document.querySelector('.img-filters');
 
-  var shuffle = function (arr) {
+  var shuffle = function (tags) {
     var j;
     var temp;
-    for (var i = arr.length - 1; i > 0; i--) {
+    for (var i = tags.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
-      temp = arr[j];
-      arr[j] = arr[i];
-      arr[i] = temp;
+      temp = tags[j];
+      tags[j] = tags[i];
+      tags[i] = temp;
     }
-    return arr;
+    return tags;
   };
 
   var deleteItem = function (item) {
@@ -25,14 +25,14 @@
   };
 
   filters.classList.remove('img-filters--inactive');
-  var filterBtn = filters.querySelectorAll('.img-filters__button');
+  var filterButton = filters.querySelectorAll('.img-filters__button');
   var lastTimeout;
 
-  filterBtn.forEach(function (item) {
+  filterButton.forEach(function (item) {
     item.addEventListener('click', function (evt) {
       evt.preventDefault();
-      var filterBtnActive = filters.querySelector('.img-filters__button--active');
-      filterBtnActive.classList.remove('img-filters__button--active');
+      var filterButtonActive = filters.querySelector('.img-filters__button--active');
+      filterButtonActive.classList.remove('img-filters__button--active');
       evt.target.classList.add('img-filters__button--active');
       if (lastTimeout) {
         clearTimeout(lastTimeout);
@@ -43,19 +43,19 @@
 
           case 'filter-random':
             document.querySelectorAll('.picture').forEach(deleteItem);
-            var randomPhotos = window.savedPhotoArr.slice();
+            var randomPhotos = window.photos.slice();
             window.addPhoto(shuffle(randomPhotos).slice(0, AMOUNT_RANDOM_PICS));
             break;
 
           case 'filter-discussed':
             document.querySelectorAll('.picture').forEach(deleteItem);
-            var discussedPhotos = window.savedPhotoArr.slice();
+            var discussedPhotos = window.photos.slice();
             window.addPhoto(discussedPhotos.sort(compareComments));
             break;
 
           default:
             document.querySelectorAll('.picture').forEach(deleteItem);
-            window.addPhoto(window.savedPhotoArr);
+            window.addPhoto(window.photos);
         }
       }, 500);
     });

@@ -2,10 +2,16 @@
 
 (function () {
   // Редактирование фото с помощью фильтров
-  var scale = {
+  var Scale = {
     MIN: 0,
     MAX: 100
   };
+
+  var Transformation = {
+    one: 0.01,
+    three: 0.03
+  };
+
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var previewImg = uploadOverlay.querySelector('img');
   var effectsRadio = uploadOverlay.querySelectorAll('.effects__radio');
@@ -16,34 +22,29 @@
   var effectDepth = uploadOverlay.querySelector('.effect-level__depth');
   var cursorPosition;
 
-  var valueConvertation = {
-    one: 0.01,
-    three: 0.03
-  };
-
   var effects = {
     chrome: function (value) {
-      return 'grayscale(' + value * valueConvertation.one + ')';
+      return 'grayscale(' + value * Transformation.one + ')';
     },
     sepia: function (value) {
-      return 'sepia(' + value * valueConvertation.one + ')';
+      return 'sepia(' + value * Transformation.one + ')';
     },
     marvin: function (value) {
       return 'invert(' + value + '%)';
     },
     phobos: function (value) {
-      return 'blur(' + value * valueConvertation.three + 'px)';
+      return 'blur(' + value * Transformation.three + 'px)';
     },
     heat: function (value) {
-      return 'brightness(' + value * valueConvertation.three + ')';
+      return 'brightness(' + value * Transformation.three + ')';
     }
   };
 
   for (var i = 0; i < effectsRadio.length; i++) {
     effectsRadio[i].addEventListener('change', function (evt) {
       window.currentRadioValue = evt.target.value;
-      var classListArr = previewImg.classList;
-      previewImg.classList.remove(classListArr[0]);
+      var classes = previewImg.classList;
+      previewImg.classList.remove(classes[0]);
 
 
       if (window.currentRadioValue === 'none') {
@@ -54,13 +55,13 @@
         effectPin.style.left = 100 + '%';
         effectDepth.style.width = 100 + '%';
         previewImg.classList.add('effects__preview--' + window.currentRadioValue);
-        window.applyFilter(scale.MAX);
+        window.applyFilter(Scale.MAX);
       }
     });
   }
 
   // изменение глубины эффект
-  window.window.applyFilter = function (value) {
+  window.applyFilter = function (value) {
     previewImg.style.filter = effects[window.currentRadioValue](value);
   };
 
@@ -90,9 +91,9 @@
       cursorPosition = moveEvt.clientX;
 
       if (cursorPosition < scaleCoords.left) {
-        pinPosition = scale.MIN;
+        pinPosition = Scale.MIN;
       } else if (cursorPosition > scaleCoords.right) {
-        pinPosition = scale.MAX;
+        pinPosition = Scale.MAX;
       } else {
         pinPosition = Math.round((cursorPosition - scaleCoords.left) / effectLine.offsetWidth * 100);
       }
@@ -117,7 +118,7 @@
 
   // изменение размера фото
 
-  var controlerSmal = uploadOverlay.querySelector('.scale__control--smaller');
+  var controlerSmall = uploadOverlay.querySelector('.scale__control--smaller');
   var controlerBig = uploadOverlay.querySelector('.scale__control--bigger');
   var controlerValue = uploadOverlay.querySelector('.scale__control--value');
   var resizeData = {
@@ -125,11 +126,11 @@
       return parseInt(controlerValue.value, 10);
     },
     step: 25,
-    cofecient: 0.01,
+    coefficient: 0.01,
     min: 25,
     max: 100,
     setSize: function (value) {
-      previewImg.style.transform = 'scale(' + value * this.cofecient + ')';
+      previewImg.style.transform = 'scale(' + value * this.coefficient + ')';
     },
     resizeSmaller: function () {
       if (this.getCurrentSize() > resizeData.min && this.getCurrentSize() <= resizeData.max) {
@@ -143,7 +144,7 @@
     }
   };
 
-  controlerSmal.addEventListener('click', function () {
+  controlerSmall.addEventListener('click', function () {
     resizeData.resizeSmaller();
     resizeData.setSize(parseInt(controlerValue.value, 10));
   });

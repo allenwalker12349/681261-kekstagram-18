@@ -7,14 +7,14 @@
   var fullPhoto = document.querySelector('.big-picture__img');
   var fullPhotoElement = document.querySelector('.big-picture');
   var commentsContainer = document.querySelector('.social__comments');
-  var loadCommentsBtn = fullPhotoElement.querySelector('.social__comments-loader');
+  var loadCommentsButton = fullPhotoElement.querySelector('.social__comments-loader');
 
-  window.addPhoto = function (photoArr) {
+  window.addPhoto = function (photos) {
     var picturersContainer = document.querySelector('.pictures');
     var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
     var fragment = document.createDocumentFragment();
 
-    photoArr.forEach(function (item) {
+    photos.forEach(function (item) {
       var photoElement = pictureTemplate.cloneNode(true);
       photoElement.querySelector('.picture__img').src = item.url;
       photoElement.querySelector('.picture__likes').textContent = item.likes;
@@ -35,23 +35,23 @@
 
       clearComments();
 
-      addComent(data.comments, NUM, START);
+      addComment(data.comments, NUM, START);
 
       hideBigPicture();
     });
   };
 
-  var addComent = function (comentArr, num, start) {
-    document.querySelector('.comments-count').innerHTML = comentArr.length;
+  var addComment = function (comments, num, start) {
+    document.querySelector('.comments-count').innerHTML = comments.length;
     var commentFragment = document.createDocumentFragment();
     var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 
     var renderComment = function () {
-      for (var i = start; i < start + num && i < comentArr.length; i++) {
+      for (var i = start; i < start + num && i < comments.length; i++) {
         var currentComment = commentTemplate.cloneNode(true);
-        currentComment.querySelector('.social__picture').src = comentArr[i].avatar;
-        currentComment.querySelector('.social__picture').alt = comentArr[i].name;
-        currentComment.querySelector('.social__text').innerHTML = comentArr[i].message;
+        currentComment.querySelector('.social__picture').src = comments[i].avatar;
+        currentComment.querySelector('.social__picture').alt = comments[i].name;
+        currentComment.querySelector('.social__text').innerHTML = comments[i].message;
         commentFragment.appendChild(currentComment);
       }
       commentsContainer.appendChild(commentFragment);
@@ -59,32 +59,32 @@
     };
 
     renderComment();
-    changeNumofComments();
+    changeNumOfComments();
 
-    loadCommentsBtn.addEventListener('click', function () {
+    loadCommentsButton.addEventListener('click', function () {
       renderComment();
-      changeNumofComments();
+      changeNumOfComments();
     });
   };
 
-  var changeNumofComments = function () {
+  var changeNumOfComments = function () {
     var currentlyShowed = document.querySelector('.comments-total');
     var commentsTotal = document.querySelector('.comments-count');
     var displayedComments = document.querySelectorAll('.social__comment').length;
     if (parseInt(commentsTotal.innerHTML, 10) > displayedComments) {
-      loadCommentsBtn.classList.remove('hidden');
+      loadCommentsButton.classList.remove('hidden');
       currentlyShowed.innerHTML = displayedComments;
     } else {
       currentlyShowed.innerHTML = displayedComments;
-      loadCommentsBtn.classList.add('hidden');
+      loadCommentsButton.classList.add('hidden');
     }
   };
 
   var clearComments = function () {
-    var currneCommentsPool = commentsContainer.querySelectorAll('.social__comment');
-    for (var i = 0; i < currneCommentsPool.length; i++) {
-      currneCommentsPool[i].remove();
-    }
+    var currentCommentsPool = commentsContainer.querySelectorAll('.social__comment');
+    currentCommentsPool.forEach(function (item) {
+      item.remove();
+    });
   };
 
   var hideBigPicture = function () {
@@ -106,15 +106,15 @@
     main.appendChild(errorTemplate);
   };
 
-  var onError = function () {
+  var errorHandler = function () {
     showError();
   };
 
-  var onSuccess = function (data) {
+  var successHandler = function (data) {
     window.addPhoto(data);
   };
 
-  window.load('https://js.dump.academy/kekstagram/data', onSuccess, onError);
+  window.load('https://js.dump.academy/kekstagram/data', successHandler, errorHandler);
 
 
 })();
