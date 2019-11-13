@@ -3,13 +3,13 @@
 
 (function () {
   var SUCCESS_STATUS = 200;
-
-  var sendFormBtn = document.querySelector('#upload-submit');
+  var ESC_CODE = 27;
+  var sendFormButton = document.querySelector('#upload-submit');
   var uploadForm = document.querySelector('#upload-select-image');
   var popUp = document.querySelector('.img-upload__overlay');
 
 
-  sendFormBtn.addEventListener('click', function (evt) {
+  sendFormButton.addEventListener('click', function (evt) {
     var hashTagInput = document.querySelector('.text__hashtags');
     if (hashTagInput.checkValidity()) {
       evt.preventDefault();
@@ -40,10 +40,10 @@
     return currentPopUp;
   };
 
-  var closePopUpHandler = function (btn, popup) {
-    btn.forEach(function (item) {
+  var closePopUpHandler = function (buttons, popup) {
+    buttons.forEach(function (item) {
       document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === 27) {
+        if (evt.keyCode === ESC_CODE) {
           popup.remove();
         }
       });
